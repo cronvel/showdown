@@ -171,7 +171,12 @@ Showdown.converter = function(converter_options) {
 
     // Convert all tabs to spaces.
     text = _Detab(text);
-
+    
+    // French typo support: keep ?!;: from being rejected at the begining
+    // of the next line, replacing space by a non-breaking space HTML entity.
+    // E.g.: replace 'How are you ?' by 'How are you&nbsp;?'
+    text = text.replace(/(\S) ([!?:;])/g, '$1&nbsp;$2' );
+    
     // Strip any lines consisting only of spaces and tabs.
     // This makes subsequent regexen easier to write, because we can
     // match consecutive blank lines with /\n+/ instead of something
